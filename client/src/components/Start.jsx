@@ -11,7 +11,7 @@ const Start = ({player, handleChange, handleSubmit}) => {
   return (
     <>
       <h3>Start</h3>
-      <form onSubmit={() => handleSubmit()} >
+      <form onSubmit={() => handleSubmit()}>
         <label>
           Player Name:
           <input type='text' required
