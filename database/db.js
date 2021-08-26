@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/player', { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true
-});
+mongoose.connect('mongodb://localhost/player', { useUnifiedTopology: true, useNewUrlParser: true});
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
-db.once('open', console.log('success!'));
+db.once('open', () => {console.log('success!')});
 
 let playerSchema = new mongoose.Schema({
   playerName: String,
@@ -24,6 +23,17 @@ module.exports = {
         return err;
       } else {
         console.log('New player added');
+      }
+    })
+  },
+
+  retrieve:(name, callback) => {
+    Player.find({playerName: name}).exec((err, result) => {
+      if (err) {
+        callback(err, null);
+      } else {
+        console.log(result);
+        callback(null, result);
       }
     })
   }
