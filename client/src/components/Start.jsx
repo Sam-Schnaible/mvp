@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Start = ({player, score, average}) => {
+const Start = ({player, handleChange, handleSubmit}) => {
 
   //Make button with label 'returning player?' they can click on to go to different form
   //which performs a get request
@@ -11,10 +11,12 @@ const Start = ({player, score, average}) => {
   return (
     <>
       <h3>Start</h3>
-      <form onSubmit>
+      <form onSubmit={() => handleSubmit()} >
         <label>
           Player Name:
-          <input type='text' required></input>
+          <input type='text' required
+          onChange={(e) => handleChange(e)}
+          ></input>
         </label>
         <button>Create</button>
       </form>

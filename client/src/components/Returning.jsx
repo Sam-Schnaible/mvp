@@ -1,9 +1,10 @@
 import React from 'react';
 
-const Returning = (props) => {
+const Returning = ({toggleReturning}) => {
 
   return (
     <>
+    <button onClick={() => toggleReturning()}>Back</button>
       <h3>Coming back for more, eh?</h3>
       <form onSubmit>
         <label>

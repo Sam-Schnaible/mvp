@@ -12,7 +12,8 @@ class App extends React.Component {
     {
       playerName: '',
       score: 0,
-      average: 0
+      average: 0,
+      returning: false
     }
   }
 
@@ -33,17 +34,53 @@ class App extends React.Component {
     })
   }
 
+  handleReturningSubmit = () => {
+    axios.get('/retrievePlayer',
+    {
+      params: {
+        name: this.state.playerName
+      }
+    })
+    .then( result => {
+      console.log(result.score, result.avg);
+      //this is where I would pass this to the game
+      //so it could display player information
+    })
+  }
+
+  toggleReturning = () => {
+    this.state.returning === false ?
+    this.setState({returning: true}) :
+    this.setState({returning: false})
+  }
 
 
   render () {
     //write logic that switches between new player and returning player form
+    let nameForm;
+    let checkReturning;
+    this.state.returning ?
+    nameForm = <Returning
+      toggleReturning={this.toggleReturning}
+      /> :
+     nameForm = <Start
+      player={this.state.playerName}
+      handleChange={this.handleChange}
+      handleSubmit={this.handleNewPlayerSubmit}
+      />
+    this.state.returning ?
+    checkReturning = null :
+    checkReturning = <button
+    onClick={() => this.toggleReturning()}>Returning?</button>
+
 
     return (
     <div>
       <h1>Hello!</h1>
-      <Start
-      player={this.state.playerName}
-      />
+      {checkReturning}
+      {nameForm}
+
+      <button>Play</button>
       <GameOver/>
 
     </div>
