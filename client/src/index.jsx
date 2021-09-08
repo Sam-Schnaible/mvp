@@ -13,7 +13,8 @@ class App extends React.Component {
       playerName: '',
       score: 0,
       average: 0,
-      returning: false
+      returning: false,
+      newName: ''
     }
   }
 
@@ -27,6 +28,9 @@ class App extends React.Component {
       url: '/newPlayer',
       data: {
         playerName: this.state.playerName
+      },
+      headers: {
+        'content-type': 'application/json'
       }
     })
     .catch( err => {
@@ -34,17 +38,15 @@ class App extends React.Component {
     })
   }
 
-  handleReturningSubmit = () => {
-    axios.get('/retrievePlayer',
-    {
-      params: {
-        name: this.state.playerName
-      }
-    })
+  handleReturningSubmit = (e) => {
+    e.preventDefault();
+    axios.get(`/retrievePlayer/${this.state.playerName}`)
     .then( result => {
-      console.log(result.score, result.avg);
-      //this is where I would pass this to the game
-      //so it could display player information
+      console.log(result.data);
+      this.setState({newName: result.playerName,
+      returning: false
+      })
+
     })
   }
 
@@ -61,7 +63,9 @@ class App extends React.Component {
     let checkReturning;
     this.state.returning ?
     nameForm = <Returning
+      handleChange={this.handleChange}
       toggleReturning={this.toggleReturning}
+      handleSubmit={this.handleReturningSubmit}
       /> :
      nameForm = <Start
       player={this.state.playerName}
@@ -70,18 +74,25 @@ class App extends React.Component {
       />
     this.state.returning ?
     checkReturning = null :
-    checkReturning = <button
+    checkReturning = <button className='button'
     onClick={() => this.toggleReturning()}>Returning?</button>
 
 
     return (
-    <div>
-      <h1>Hello!</h1>
-      {checkReturning}
-      {nameForm}
+    <div id='container'>
+      <h1>Ready Player One</h1>
+      {/* <div id='form'> */}
 
-      <button>Play</button>
-      <GameOver/>
+
+        {checkReturning}
+
+        {nameForm}
+
+      <button className='button' id='play'>Play</button>
+
+      {/* </div> */}
+
+      {/* <GameOver/> */}
 
     </div>
     )

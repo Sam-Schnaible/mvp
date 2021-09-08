@@ -10,16 +10,18 @@ const Start = ({player, handleChange, handleSubmit}) => {
 
   return (
     <>
-      <h3>Start</h3>
+    <div className='form'>
+      <h3>Are you ready to play?!</h3>
       <form onSubmit={() => handleSubmit()}>
         <label>
           Player Name:
-          <input type='text' required
+          <input type='text' required className='myInput'
           onChange={(e) => handleChange(e)}
           ></input>
         </label>
-        <button>Create</button>
+        <button className='button'>Create</button>
       </form>
+    </div>
     </>
   )
 };

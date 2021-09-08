@@ -1,13 +1,16 @@
 const express = require('express');
-const { create } = require('../database/db.js')
+const { create, retrieve } = require('../database/db.js')
+const bodyParser = require('body-parser');
 let app = express();
 
 
 app.use(express.static(__dirname + '/../client/dist'));
-app.use(express.json());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+
 
 app.post('/newPlayer', (req, res) => {
-  db.create(req.data.playerName, (error, result) => {
+  create(req.body.playerName, (error, result) => {
     if (error) {
       console.log('SERVER SIDE ERROR: ', error)
     } else {
@@ -16,8 +19,14 @@ app.post('/newPlayer', (req, res) => {
   })
 });
 
-app.get('/retrievePlayer', (req, res) => {
-  db.retrieve()
+app.get('/retrievePlayer/:name', (req, res) => {
+  retrieve(req.params.name, (error, result) => {
+    if ( error) {
+      console.log('SERVER SIDE ERROR: ', error)
+    } else {
+      res.status(200).send(result);
+    }
+  })
 })
 
 let port = 3000;

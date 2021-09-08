@@ -1,19 +1,23 @@
 import React from 'react';
 
-const Returning = ({toggleReturning}) => {
+const Returning = ({toggleReturning, handleChange, handleSubmit}) => {
 
   return (
     <>
-    <button onClick={() => toggleReturning()}>Back</button>
+    <button className='button' onClick={() => toggleReturning()}>Back</button>
+      <div className='form'>
       <h3>Coming back for more, eh?</h3>
-      <form onSubmit>
+      <form onSubmit={(e) => handleSubmit(e)}>
         <label>
           Player Name:
-          <input type='text' required></input>
+          <input type='text' required className='myInput'
+          onChange={(e) => handleChange(e)}></input>
         </label>
-        <button>Retrieve</button>
+        <button className='button'>Retrieve</button>
       </form>
-    </>
+      </div>
+      </>
+
   )
 };
 

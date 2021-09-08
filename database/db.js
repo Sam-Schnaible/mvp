@@ -28,12 +28,12 @@ module.exports = {
   },
 
   retrieve:(name, callback) => {
-    Player.find({playerName: name}).exec((err, result) => {
+    Player.findOne({playerName: name}).exec((err, result) => {
       if (err) {
         callback(err, null);
       } else {
-        console.log(result);
-        callback(null, result);
+        // console.log(result.playerName);
+        callback(null, result.playerName);
       }
     })
   }
